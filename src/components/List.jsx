@@ -1,25 +1,44 @@
+// List.jsx
 import React from 'react';
-import styled from 'styled-components';
+import {
+  ListItem,
+  ListP,
+  P,
+  ListSection,
+  SpanFirstChild,
+  SpanSecondChild,
+  SpanLastChild,
+  StyledLink,
+  ListContentLeft,
+  ListContentRight,
+  ListNoContent,
+} from '../styled';
 
-const List = () => {
-  const Section = styled.section`
-    background-color: #fff;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: flex-end;
-    display: flex;
-    justify-content: center;
-    border-radius: 18px;
-    padding: 20px;
-  `;
-
+const List = ({ selectedMonth, entries, onSelectEntry }) => {
   return (
-    <Section>
-      <div>
-        <p>지출이 없습니다.</p>
-      </div>
-    </Section>
+    <ListSection>
+      {entries.length > 0 ? (
+        entries.map(({ id, date, item, amount, description }) => (
+          <ListItem key={id}>
+            <StyledLink to={`/Works/${id}`} onClick={() => onSelectEntry(id)}>
+              <ListContentLeft>
+                <P>{date}</P>
+                <ListP>
+                  <SpanFirstChild>{item}</SpanFirstChild> - <SpanSecondChild>{description}</SpanSecondChild>
+                </ListP>
+              </ListContentLeft>
+              <ListContentRight>
+                <SpanLastChild>{amount}원</SpanLastChild>
+              </ListContentRight>
+            </StyledLink>
+          </ListItem>
+        ))
+      ) : (
+        <ListNoContent>
+          <ListP>지출이 없습니다.</ListP>
+        </ListNoContent>
+      )}
+    </ListSection>
   );
 };
 

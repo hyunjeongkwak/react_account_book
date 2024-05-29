@@ -1,29 +1,20 @@
 import { useState } from 'react';
-import './App.css';
-import styled from 'styled-components';
+import { Route } from 'react-router-dom';
 import GlobalStyle from './GlobalStyle';
-import Inputs from './components/Inputs';
-import Months from './components/Months';
-import List from './components/List';
-
-const Main = styled.main`
-  max-width: 800px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin: 30px auto;
-`;
+import Router from './shared/Router';
+import Home from './pages/Home';
+import Works from './pages/Works';
 
 function App() {
+  const [selectedMonth, setSelectedMonth] = useState('');
+
   return (
     <>
       <GlobalStyle />
-      <Main>
-        <Inputs />
-        <Months />
-        <List />
-      </Main>
+      <Router>
+        <Route path="/" element={<Home selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />} />
+        <Route path="/Works/ :id" element={<Works />} />
+      </Router>
     </>
   );
 }

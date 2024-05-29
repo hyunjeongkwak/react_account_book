@@ -1,67 +1,65 @@
-import React from 'react';
-import styled from 'styled-components';
+// Inputs.jsx
+import { useState } from 'react';
+import { Section, InfoBox, Input, P, SaveBtn } from '../styled';
 
-const Inputs = () => {
-  const Section = styled.section`
-    background-color: #fff;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: flex-end;
-    display: flex;
-    justify-content: center;
-    border-radius: 18px;
-    padding: 20px;
-  `;
+const Inputs = ({ addEntry }) => {
+  const [date, setDate] = useState('');
+  const [item, setItem] = useState('');
+  const [amount, setAmount] = useState('');
+  const [description, setDescription] = useState('');
 
-  const Box = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 0%;
-    min-width: 120px;
-  `;
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+  };
 
-  const Input = styled.input`
-    width: 160px;
-    height: 30px;
-    border: 1px solid #cacaca;
-    border-radius: 7px;
-  `;
+  const handleItemChange = (e) => {
+    setItem(e.target.value);
+  };
 
-  const P = styled.label`
-    text-align: left;
-    margin-bottom: 5px;
-    font-size: 14px;
-  `;
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  };
 
-  const SaveBtn = styled.button`
-    background-color: #bd4c4c;
-    color: white;
-    height: 34px;
-    border: none;
-    border-radius: 7px;
-    padding: 8px 20px;
-  `;
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const submitInput = () => {
+    const newEntry = {
+      id: crypto.randomUUID(),
+      date,
+      item,
+      amount: parseFloat(amount),
+      description,
+    };
+
+    addEntry(newEntry);
+
+    setDate('');
+    setItem('');
+    setAmount('');
+    setDescription('');
+  };
 
   return (
     <Section>
-      <Box>
+      <InfoBox>
         <P>날짜</P>
-        <Input type="date" />
-      </Box>
-      <Box>
+        <Input type="date" value={date} onChange={handleDateChange} />
+      </InfoBox>
+      <InfoBox>
         <P>항목</P>
-        <Input placeholder="지출 항목" />
-      </Box>
-      <Box>
+        <Input type="text" value={item} onChange={handleItemChange} placeholder="지출 항목" />
+      </InfoBox>
+      <InfoBox>
         <P>금액</P>
-        <Input placeholder="지출 금액" />
-      </Box>
-      <Box>
+        <Input type="number" value={amount} onChange={handleAmountChange} placeholder="지출 금액" />
+      </InfoBox>
+      <InfoBox>
         <P>내용</P>
-        <Input placeholder="지출 내용" />
-      </Box>
-      <SaveBtn>저장</SaveBtn>
+        <Input type="text" value={description} onChange={handleDescriptionChange} placeholder="지출 내용" />
+      </InfoBox>
+      <SaveBtn onClick={submitInput}>저장</SaveBtn>
     </Section>
   );
 };
